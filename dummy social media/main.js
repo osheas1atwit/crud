@@ -6,9 +6,9 @@ let posts = document.getElementById("posts");
 form.addEventListener("submit", (e) => 
 {
     e.preventDefault();
-    console.log("submit clicked");
 
     formValidation();
+
 })
 
 let formValidation = () =>
@@ -23,6 +23,44 @@ let formValidation = () =>
     {
         console.log("successful post");
         msg.innerHTML = "";
+        acceptData();
     }
 
+};
+
+let data = {};
+
+let acceptData = () =>
+{
+    // data takes input.value as JSON
+    data["text"] = input.value;
+    console.log(data["text"]);
+
+    createPost();
+};
+
+let createPost = () =>
+{
+    posts.innerHTML += 
+    `
+    <div>
+        <p>${data["text"]}</p>
+        <span class="options">
+            <i onclick="editPost(this)" class="fas fa-edit"></i>
+            <i onclick="deletePost(this)" class="fas fa-trash-alt"></i>
+        </span>
+    </div>
+    `;
+    input.value = "";
+};
+
+let editPost = (e) =>
+{
+    input.value = e.parentElement.previousElementSibling.innerHTML;
+    e.parentElement.parentElement.remove();
+};
+
+let deletePost = (e) => 
+{
+    e.parentElement.parentElement.remove();
 };
